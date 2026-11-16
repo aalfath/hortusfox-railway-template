@@ -1,3 +1,5 @@
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/hortusfox-1?utm_medium=integration&utm_source=button&utm_campaign=hortusfox)
+
 # HortusFox on Railway
 
 A Railway template for [HortusFox](https://github.com/danielbrendel/hortusfox-web), a self-hosted, collaborative plant management app: plants, locations, tasks, a calendar, inventory, photos and a group chat for everyone who looks after the plants.
