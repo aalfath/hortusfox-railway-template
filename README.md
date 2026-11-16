@@ -24,7 +24,7 @@ Other image settings keep the upstream defaults. `APP_DEBUG` defaults to `false`
 
 ## What the wrapper changes
 
-- `railway-entrypoint.sh` makes Apache listen on `PORT`, links every data folder the image keeps (`public/img`, `public/attachments`, `public/backup`, `public/themes`, `app/migrations`, `app/logs`) into the one volume at `/data`, and then runs the image's own `docker-entrypoint.sh` (database migrations, first admin).
+- `railway-entrypoint.sh` keeps only Apache's prefork MPM (Railway's image unpacking otherwise brings back `mpm_event`, and Apache refuses to start), makes Apache listen on `PORT`, links every data folder the image keeps (`public/img`, `public/attachments`, `public/backup`, `public/themes`, `app/migrations`, `app/logs`) into the one volume at `/data`, and then runs the image's own `docker-entrypoint.sh` (database migrations, first admin).
 - HortusFox's setup commands only run with `APP_DEBUG=true`, so setup runs in debug mode and `railway-apache.sh` switches debug off before Apache starts. It also stops the deploy if setup didn't create an admin account, so a broken setup fails the deploy instead of passing the health check.
 - `railway-proxy.php` (loaded with `auto_prepend_file`) tells PHP the request came in over HTTPS when Railway's edge says so, so links use `https://YOUR-DOMAIN/` and not `http://YOUR-DOMAIN:8080/`.
 

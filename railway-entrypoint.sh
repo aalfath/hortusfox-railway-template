@@ -20,6 +20,11 @@ for v in DB_HOST DB_DATABASE DB_USERNAME DB_PASSWORD; do
   if [ -z "${!v}" ]; then echo "$v must be set." >&2; exit 1; fi
 done
 
+# Railway's image unpacking brings back the mpm_event link the php:apache base image
+# removed, and Apache then stops with "More than one MPM loaded". mod_php needs prefork.
+rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
+[ -e /etc/apache2/mods-enabled/mpm_prefork.load ] || a2enmod -q mpm_prefork
+
 # Apache listens on Railway's PORT (80 when it isn't set).
 PORT="${PORT:-80}"
 sed -ri "s/^Listen [0-9]+$/Listen ${PORT}/" /etc/apache2/ports.conf
